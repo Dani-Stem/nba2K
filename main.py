@@ -1,7 +1,6 @@
 import pygame
 from settings import WINDOW_WIDTH, WINDOW_HEIGHT
 import time
-
 from player import Player
 from inbounder import Inbounder
 
@@ -28,7 +27,7 @@ class Game:
         self.inbounder_is_active = True
         self.snap = False
         self.menu = False
-        self.teamselected = "NONE"
+        self.team = "NONE"
 
         # Colors
         self.WHITE = (255, 255, 255)
@@ -43,8 +42,9 @@ class Game:
         self.qtr = 1
         self.score = [0, 0]
         self.white = pygame.Color(255, 255, 255)
-
         self.knicksbackground = pygame.image.load("images/knicks_court_alt.png").convert()
+        self.lakersbackground = pygame.image.load("images/lakers_court_alt.png").convert()
+
 
         self.player = Player((250, 450), self.player_group)
         self.inbounder = Inbounder(
@@ -192,7 +192,7 @@ class Game:
         implogolakers = pygame.image.load("images/logolakers.png").convert_alpha()
         self.screen.blit(
             implogolakers,
-            pygame.Rect(290, 225, 10, 10),
+            pygame.Rect(180, 175, 10, 10),
         )
 
     def logoknx(self):

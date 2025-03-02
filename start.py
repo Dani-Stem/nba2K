@@ -68,6 +68,7 @@ def render_teamselect_menu(self, selected_index2):
 
 
 def teamselect_menu(self):
+    global team 
     selected_index2 = 0
     running = True
 
@@ -97,9 +98,6 @@ def teamselect_menu(self):
                     self.highlight_sound.play()
                     selected_index2 = (selected_index2 + 1) % len(self.teamselect_menu_items)
                 elif event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
-                    self.confirm_sound.play()
-                    self.howto_menu()
-                    self.confirm_sound.play()
 
                     if self.teamselect_menu_items[selected_index2] == "KNICKS":
                         team = "KNICKS"
@@ -107,12 +105,19 @@ def teamselect_menu(self):
                     elif self.teamselect_menu_items[selected_index2] == "LAKERS":
                         team = "LAKERS"
 
+                    self.confirm_sound.play()
+                    self.howto_menu()
+                    self.confirm_sound.play()
+
 
 
         self.render_teamselect_menu(selected_index2)
         pygame.display.flip()
 
 def howto_menu(self):
+    
+    global team 
+
     if not self.start_channel.get_busy():
         self.start_channel.play(self.start_music, loops=-1)
     while True:

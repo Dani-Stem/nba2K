@@ -12,8 +12,11 @@ def game_loop(self):
                 sys.exit()
 
         dt = self.clock.tick() / 1000
-
-        self.screen.blit(self.knicksbackground, (0, 0))
+        
+        if self.team == "KNICKS":
+            self.screen.blit(self.knicksbackground, (0, 0))
+        elif self.team == "LAKERS":
+            self.screen.blit(self.lakersbackground, (0, 0))
 
         self.qtr = self.show_qtr(self.qtr, self.screen)
 
