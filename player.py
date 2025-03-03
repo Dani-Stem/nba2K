@@ -1,18 +1,20 @@
 import pygame
-from settings import WINDOW_WIDTH, WINDOW_HEIGHT
-
+from settings import WINDOW_WIDTH, WINDOW_HEIGHT 
 import pygame
 
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, groups):
         super().__init__(groups)
+        self.keypressed = ""
+        self.team = "NONE"
         self.status = "right"
         self.import_assets()
         self.frame_index = 0
         self.image = self.animation[self.frame_index]
         self.rect = self.image.get_rect(center=pos)
 
+      
         self.position = pygame.math.Vector2(self.rect.center)
         self.direction = pygame.math.Vector2(1, 0)
         self.speed = 200
@@ -25,13 +27,19 @@ class Player(pygame.sprite.Sprite):
     def import_assets(self):
         self.animation = []
         if self.status == "right":
-            path = "images/brunson/right/"
+            if self.team == "KNICKS":
+                path = "images/brunson/right/"
+            else:
+                path = "images/lebron/right/"
             for frame in range(8):
                 surf = pygame.image.load(f"{path}{frame}.png").convert_alpha()
                 surf = pygame.transform.scale(surf, (200, 200))
                 self.animation.append(surf)
         elif self.status == "left":
-            path = "images/brunson/left/"
+            if self.team == "KNICKS":
+                path = "images/brunson/left/"
+            else:
+                path = "images/lebron/left/"
             for frame in range(7, -1, -1):
                 surf = pygame.image.load(f"{path}{frame}.png").convert_alpha()
                 surf = pygame.transform.scale(surf, (200, 200))
@@ -109,13 +117,17 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_RIGHT]:
             self.status = "right"
             self.direction.x = 1
+            self.keypressed = "RIGHT"
         if keys[pygame.K_LEFT]:
             self.status = "left"
             self.direction.x = -1
+            self.keypressed = "LEFT"
         if keys[pygame.K_UP]:
             self.direction.y = -1
+            self.keypressed = "UP"
         if keys[pygame.K_DOWN]:
             self.direction.y = 1
+            self.keypressed = "DOWN"
 
     def animate(self, dt):
         self.frame_index += 10 * dt
@@ -163,7 +175,11 @@ class Player(pygame.sprite.Sprite):
         events,
         screen,
         time,
+        team,
+        keypressed,
     ):
+        self.keypressed = keypressed
+        self.team = team
         self.outOfBounds = False
         self.input(events)
         self.move(dt, screen, time)

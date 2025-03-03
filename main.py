@@ -28,6 +28,7 @@ class Game:
         self.snap = False
         self.menu = False
         self.team = "NONE"
+        self.keypressed = ""
 
         # Colors
         self.WHITE = (255, 255, 255)
@@ -44,6 +45,7 @@ class Game:
         self.white = pygame.Color(255, 255, 255)
         self.knicksbackground = pygame.image.load("images/knicks_court_alt.png").convert()
         self.lakersbackground = pygame.image.load("images/lakers_court_alt.png").convert()
+        self.background = None
 
 
         self.player = Player((250, 450), self.player_group)
@@ -148,6 +150,15 @@ class Game:
         score_rect = score_surface.get_rect()
         score_rect.midtop = (1050, 5)
         self.screen.blit(score_surface, score_rect)
+        
+    def show_keypressed(self):
+        my_font = pygame.font.Font("images/font.ttf", 50)
+        keypressed_surface = my_font.render(
+            self.keypressed, True, self.white
+        )
+        keypressed_rect = keypressed_surface.get_rect()
+        keypressed_rect.midtop = (1050, 5)
+        self.screen.blit(keypressed_surface, keypressed_rect)
 
     def show_startscreen(self):
 

@@ -15,8 +15,11 @@ def game_loop(self):
         
         if self.team == "KNICKS":
             self.screen.blit(self.knicksbackground, (0, 0))
+            self.background = self.knicksbackground
         elif self.team == "LAKERS":
             self.screen.blit(self.lakersbackground, (0, 0))
+            self.background = self.lakersbackground
+
 
         self.qtr = self.show_qtr(self.qtr, self.screen)
 
@@ -49,7 +52,7 @@ def game_loop(self):
             self.player_group.customize_draw(
                 self.player,
                 self.screen,
-                self.knicksbackground,
+                self.background,
                 self.qtr,
                 self.show_qtr,
                 self.show_score,
@@ -60,10 +63,13 @@ def game_loop(self):
                 events,
                 self.screen,
                 time,
+                self.team,
+                self.keypressed,
             )
 
         if self.outOfBounds:
             self.snap = False
             self.qtr += 1
+
 
         pygame.display.update()
