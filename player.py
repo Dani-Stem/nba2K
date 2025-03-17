@@ -205,6 +205,9 @@ class Player(pygame.sprite.Sprite):
             self.keypressed = "SWITCH HANDS"
         else:
             self.status = "idleRight"
+            self.direction.x = 0
+            self.direction.y = 0
+            self.keypressed = ""
     
     def show_keypressed(self, screen):
         my_font = pygame.font.Font("images/font.ttf", 50)
