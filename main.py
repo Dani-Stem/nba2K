@@ -3,7 +3,7 @@ from settings import WINDOW_WIDTH, WINDOW_HEIGHT
 import time
 from player import Player
 from inbounder import Inbounder
-
+from tipoff import TipOff
 from game_loop import game_loop
 from all_sprites import AllSprites
 
@@ -46,6 +46,7 @@ class Game:
         self.knicksbackground = pygame.image.load("images/knicks_court_alt.png").convert()
         self.lakersbackground = pygame.image.load("images/lakers_court_alt.png").convert()
         self.background = None
+        self.tipoff = TipOff()
 
 
         self.player = Player((250, 450), self.player_group)
@@ -67,22 +68,23 @@ class Game:
             "OFFENSIVE MOVES:",
             "-PASS | A KEY",
             "-SHOOT | W KEY",
+            "-JUMP | SPACE KEY"
             "-SPIN | S AND LEFT OR RIGHT ARROW KEYS",
             "-HALF SPIN | AS AND LEFT OR RIGHT ARROW KEYS",
             "-PUMP | SHIFT KEY",
-            "-SIDE STEP | SPACEBAR AND UP OR DOWN KEY",
-            "-STEP BACK | SHIFT AND LEFT OR RIGHT KEY",
             "-DUNK | D KEY",
             "-EUROSTEP | SPACEBAR AND SHIFT KEYS",
-            "FLOP | WAD KEYS",
-            "BALL BEHIND THE BACK | SA KEYS",
-            "SWITCH HANDS | SD KEYS"
+            "-FLOP | WAD KEYS",
+            "-BALL BEHIND THE BACK | SA KEYS",
+            "-SWITCH HANDS | SD KEYS"
             "",
             "DEFENSIVE MOVES:",
             "-BLOCK | W KEY",
             "-SUMMON 2ND MAN | A KEY",
             "-STEAL | D AND LEFT OR RIGHT ARROW KEYS",
             "-DRAYMOND | S KEY"
+            "-FLOP | WAD KEYS",
+
         ]
 
         self.teamselect_instructions = [
@@ -151,14 +153,6 @@ class Game:
         score_rect.midtop = (1050, 5)
         self.screen.blit(score_surface, score_rect)
         
-    def show_keypressed(self):
-        my_font = pygame.font.Font("images/font.ttf", 50)
-        keypressed_surface = my_font.render(
-            self.keypressed, True, self.white
-        )
-        keypressed_rect = keypressed_surface.get_rect()
-        keypressed_rect.midtop = (1050, 5)
-        self.screen.blit(keypressed_surface, keypressed_rect)
 
     def show_startscreen(self):
 
@@ -250,7 +244,6 @@ class Game:
     def howto_menu(self):
         howto_menu(self)  
 
- 
     def run(self):
         self.start_menu()
         """

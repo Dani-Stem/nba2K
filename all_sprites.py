@@ -19,6 +19,7 @@ class AllSprites(pygame.sprite.Group):
 
         screen.blit(background, -self.offset)
         player.draw_speed_meter(screen)
+        player.show_keypressed(screen)
         show_downs(down, screen)
         show_score()
 

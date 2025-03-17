@@ -2,10 +2,10 @@ import pygame, sys
 import random
 from pygame.sprite import Sprite
 from pygame.rect import Rect
+from tipoff import TipOff
 
 WINDOW_WIDTH, WINDOW_HEIGHT = 1368, 712
 
-team = ""
 
 def start_menu(self):
     self.win_music.stop()
@@ -68,7 +68,7 @@ def render_teamselect_menu(self, selected_index2):
 
 
 def teamselect_menu(self):
-    global team 
+
     selected_index2 = 0
     running = True
 
@@ -100,10 +100,10 @@ def teamselect_menu(self):
                 elif event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
 
                     if self.teamselect_menu_items[selected_index2] == "KNICKS":
-                        team = "KNICKS"
-            
+                        self.team = "KNICKS"
+                        
                     elif self.teamselect_menu_items[selected_index2] == "LAKERS":
-                        team = "LAKERS"
+                        self.team = "LAKERS"
 
                     self.confirm_sound.play()
                     self.howto_menu()
@@ -115,8 +115,6 @@ def teamselect_menu(self):
         pygame.display.flip()
 
 def howto_menu(self):
-    
-    global team 
 
     if not self.start_channel.get_busy():
         self.start_channel.play(self.start_music, loops=-1)
@@ -130,13 +128,13 @@ def howto_menu(self):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s:
                     self.start_sound.play()
-                    self.game_loop()
-
+                    self.tipoff.run(self.game_loop)
+                    
         self.screen.fill(self.BLACK)
         
-        if team == "KNICKS": 
+        if self.team == "KNICKS": 
             self.logoknx1()
-        elif team == "LAKERS": 
+        elif self.team == "LAKERS": 
             self.logolakers1()
 
         self.howto(self.instructions, self.WHITE, (575, 50), line_spacing=5)

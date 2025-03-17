@@ -24,22 +24,70 @@ class Player(pygame.sprite.Sprite):
 
         self.scale_factor = 1.0
 
+        self.white = (255, 255, 255)
+
+
+
+
     def import_assets(self):
         self.animation = []
-        if self.status == "right":
-            if self.team == "KNICKS":
+
+        
+        #idle brunson right/left
+        if self.status == "idleRight":
+            if self.team == True:
                 path = "images/brunson/right/"
             else:
-                path = "images/lebron/right/"
+                path = "images/brunson/brunson_idle/"
+            for frame in range(8):
+                surf = pygame.image.load(f"{path}{frame}.png").convert_alpha()
+                surf = pygame.transform.scale(surf, (200, 200))
+                self.animation.append(surf)
+        elif self.status == "idleLeft":
+            if self.team == True:
+                path = "images/brunson/left/"
+            else:
+                path = "images/brunson/brunson_idle_left/"
+            for frame in range(7, -1, -1):
+                surf = pygame.image.load(f"{path}{frame}.png").convert_alpha()
+                surf = pygame.transform.scale(surf, (200, 200))
+                self.animation.append(surf)
+
+        #moving brunson right/left
+        if self.status == "right":
+            if self.team == True:
+                path = "images/brunson/right/"
+            else:
+                path = "images/brunson/brunson_run/"
             for frame in range(8):
                 surf = pygame.image.load(f"{path}{frame}.png").convert_alpha()
                 surf = pygame.transform.scale(surf, (200, 200))
                 self.animation.append(surf)
         elif self.status == "left":
-            if self.team == "KNICKS":
+            if self.team == True:
                 path = "images/brunson/left/"
             else:
-                path = "images/lebron/left/"
+                path = "images/brunson/brunson_run_left/"
+            for frame in range(7, -1, -1):
+                surf = pygame.image.load(f"{path}{frame}.png").convert_alpha()
+                surf = pygame.transform.scale(surf, (200, 200))
+                self.animation.append(surf)
+        
+        # #brunson jump right/left
+        if self.status == "jumpRight":
+            if self.team == True:
+                path = "images/brunson/right/"
+            else:
+                path = "images/brunson/brunson_jump/"
+            for frame in range(8):
+                surf = pygame.image.load(f"{path}{frame}.png").convert_alpha()
+                surf = pygame.transform.scale(surf, (200, 200))
+                self.animation.append(surf)
+        elif self.status == "jumpLeft":
+            if self.team == True:
+                path = "images/brunson/left/"
+            else:
+                path = "images/brunson/brunson_jump_left/"
             for frame in range(7, -1, -1):
                 surf = pygame.image.load(f"{path}{frame}.png").convert_alpha()
                 surf = pygame.transform.scale(surf, (200, 200))
@@ -118,16 +166,54 @@ class Player(pygame.sprite.Sprite):
             self.status = "right"
             self.direction.x = 1
             self.keypressed = "RIGHT"
-        if keys[pygame.K_LEFT]:
+        elif keys[pygame.K_LEFT]:
             self.status = "left"
             self.direction.x = -1
             self.keypressed = "LEFT"
-        if keys[pygame.K_UP]:
+        elif keys[pygame.K_UP]:
             self.direction.y = -1
             self.keypressed = "UP"
-        if keys[pygame.K_DOWN]:
+        elif keys[pygame.K_DOWN]:
             self.direction.y = 1
             self.keypressed = "DOWN"
+        elif keys[pygame.K_a]:
+            self.keypressed = "PASS"
+        elif keys[pygame.K_w]:
+            self.keypressed = "SHOOT"
+        elif keys[pygame.K_s]:
+            self.keypressed = "SPIN"
+        elif keys[pygame.K_SPACE]:
+            if self.status == "idleRight" or self.status == "right":
+                self.status = "jumpRight"
+            elif self.status == "idleLeft" or self.status == "left":
+                self.status = "idleLeft"
+            self.keypressed = "JUMP"
+            self.direction.y = -1
+        elif (keys[pygame.K_a] and keys[pygame.K_s]):
+            self.keypressed = "HALF SPIN"
+        elif (keys[pygame.K_RSHIFT] or keys[pygame.K_LSHIFT]):
+            self.keypressed = "PUMP"
+        elif keys[pygame.K_d]:
+            self.keypressed = "DUNK"
+        elif (keys[pygame.K_SPACE] and (keys[pygame.K_RSHIFT] or keys[pygame.K_LSHIFT])):
+            self.keypressed = "EUROSTEP"
+        elif (keys[pygame.K_w] and keys[pygame.K_a] and keys[pygame.K_d]):
+            self.keypressed = "FLOP"
+        elif (keys[pygame.K_s] and keys[pygame.K_a]):
+            self.keypressed = "BALL BEHIND THE BACK"
+        elif (keys[pygame.K_s] and keys[pygame.K_d]):
+            self.keypressed = "SWITCH HANDS"
+        else:
+            self.status = "idleRight"
+    
+    def show_keypressed(self, screen):
+        my_font = pygame.font.Font("images/font.ttf", 50)
+        keypressed_surface = my_font.render(
+            self.keypressed, True, self.white
+        )
+        keypressed_rect = keypressed_surface.get_rect()
+        keypressed_rect.midtop = (1050, 105)
+        screen.blit(keypressed_surface, keypressed_rect)        
 
     def animate(self, dt):
         self.frame_index += 10 * dt
