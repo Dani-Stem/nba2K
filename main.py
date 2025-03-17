@@ -98,31 +98,31 @@ class Game:
 
 
         #Sounds
-        self.start_music = pygame.mixer.Sound("sounds/start.mp3")
+        self.start_music = pygame.mixer.Sound("images/sounds/start.mp3")
         self.start_music.set_volume(0.2)
 
-        self.player_music = pygame.mixer.Sound("sounds/player.mp3")
+        self.player_music = pygame.mixer.Sound("images/sounds/player.mp3")
         self.player_music.set_volume(0.04)
 
-        self.opp_music = pygame.mixer.Sound("sounds/opp.mp3")
+        self.opp_music = pygame.mixer.Sound("images/sounds/opp.mp3")
         self.opp_music.set_volume(0.1)
 
-        self.highlight_sound = pygame.mixer.Sound("sounds/highlight.wav")
+        self.highlight_sound = pygame.mixer.Sound("images/sounds/highlight.wav")
         self.highlight_sound.set_volume(0.05)
 
-        self.confirm_sound = pygame.mixer.Sound("sounds/confirm.wav")
+        self.confirm_sound = pygame.mixer.Sound("images/sounds/confirm.wav")
         self.confirm_sound.set_volume(0.05)
 
-        self.coin_sound = pygame.mixer.Sound("sounds/coin.wav")
+        self.coin_sound = pygame.mixer.Sound("images/sounds/coin.wav")
         self.coin_sound.set_volume(0.05)
 
-        self.win_music = pygame.mixer.Sound("sounds/win.mp3")
+        self.win_music = pygame.mixer.Sound("images/sounds/win.mp3")
         self.win_music.set_volume(0.05)
 
-        self.lose_music = pygame.mixer.Sound("sounds/lose.mp3")
+        self.lose_music = pygame.mixer.Sound("images/sounds/lose.mp3")
         self.lose_music.set_volume(0.2)
 
-        self.start_sound = pygame.mixer.Sound("sounds/start.wav")
+        self.start_sound = pygame.mixer.Sound("images/sounds/start.wav")
         self.start_sound.set_volume(0.05)
 
 
