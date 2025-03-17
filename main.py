@@ -68,7 +68,7 @@ class Game:
             "OFFENSIVE MOVES:",
             "-PASS | A KEY",
             "-SHOOT | W KEY",
-            "-JUMP | SPACE KEY"
+            "-JUMP | SPACE KEY",
             "-SPIN | S AND LEFT OR RIGHT ARROW KEYS",
             "-HALF SPIN | AS AND LEFT OR RIGHT ARROW KEYS",
             "-PUMP | SHIFT KEY",
@@ -79,6 +79,7 @@ class Game:
             "-SWITCH HANDS | SD KEYS"
             "",
             "DEFENSIVE MOVES:",
+            "-JUMP | SPACE KEY",
             "-BLOCK | W KEY",
             "-SUMMON 2ND MAN | A KEY",
             "-STEAL | D AND LEFT OR RIGHT ARROW KEYS",
