@@ -186,7 +186,7 @@ class Player(pygame.sprite.Sprite):
             if self.status == "idleRight" or self.status == "right":
                 self.status = "jumpRight"
             elif self.status == "idleLeft" or self.status == "left":
-                self.status = "idleLeft"
+                self.status = "jumpLeft"
             self.keypressed = "JUMP"
             self.direction.y = -1
         elif (keys[pygame.K_a] and keys[pygame.K_s]):
