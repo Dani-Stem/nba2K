@@ -98,6 +98,46 @@ class Player(pygame.sprite.Sprite):
                 surf = pygame.transform.scale(surf, (200, 200))
                 self.animation.append(surf)
 
+        #brunson shoot right/left
+        if self.status == "shootRight":
+            if self.team == True:
+                path = "images/brunson/right/"
+            else:
+                path = "images/brunson/brunson_shoot/"
+            for frame in range(5):
+                surf = pygame.image.load(f"{path}{frame}.png").convert_alpha()
+                surf = pygame.transform.scale(surf, (200, 200))
+                self.animation.append(surf)
+        elif self.status == "shootLeft":
+            if self.team == True:
+                path = "images/brunson/left/"
+            else:
+                path = "images/brunson/brunson_shoot_left/"
+            for frame in range(5, -1, -1):
+                surf = pygame.image.load(f"{path}{frame}.png").convert_alpha()
+                surf = pygame.transform.scale(surf, (200, 200))
+                self.animation.append(surf)
+
+        #brunson steal right/left
+        if self.status == "stealRight":
+            if self.team == True:
+                path = "images/brunson/right/"
+            else:
+                path = "images/brunson/brunson_steal/"
+            for frame in range(8):
+                surf = pygame.image.load(f"{path}{frame}.png").convert_alpha()
+                surf = pygame.transform.scale(surf, (200, 200))
+                self.animation.append(surf)
+        elif self.status == "stealLeft":
+            if self.team == True:
+                path = "images/brunson/left/"
+            else:
+                path = "images/brunson/brunson_steal_left/"
+            for frame in range(8, -1, -1):
+                surf = pygame.image.load(f"{path}{frame}.png").convert_alpha()
+                surf = pygame.transform.scale(surf, (200, 200))
+                self.animation.append(surf)
+
     def outofbounds(self, screen, time):
         screen.fill((0, 0, 0))
         my_font = pygame.font.Font("images/font.ttf", 100)
@@ -190,6 +230,10 @@ class Player(pygame.sprite.Sprite):
         elif keys[pygame.K_a]:
             self.keypressed = "PASS"
         elif keys[pygame.K_w]:
+            if self.status == "idleRight" or self.status == "right":
+                self.status = "shootRight"
+            elif self.status == "idleLeft" or self.status == "left":
+                self.status = "Left"
             self.keypressed = "SHOOT"
         elif keys[pygame.K_s]:
             self.keypressed = "SPIN"
@@ -208,7 +252,11 @@ class Player(pygame.sprite.Sprite):
         elif (keys[pygame.K_RSHIFT] or keys[pygame.K_LSHIFT]):
             self.keypressed = "PUMP"
         elif keys[pygame.K_d]:
-            self.keypressed = "DUNK"
+            if self.status == "idleRight" or self.status == "right":
+                self.status = "stealRight"
+            elif self.status == "idleLeft" or self.status == "left":
+                self.status = "stealLeft"
+            self.keypressed = "STEAL"
         elif (keys[pygame.K_SPACE] and (keys[pygame.K_RSHIFT] or keys[pygame.K_LSHIFT])):
             self.keypressed = "EUROSTEP"
         elif (keys[pygame.K_w] and keys[pygame.K_a] and keys[pygame.K_d]):
