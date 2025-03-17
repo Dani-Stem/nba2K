@@ -17,6 +17,11 @@ class Player(pygame.sprite.Sprite):
       
         self.position = pygame.math.Vector2(self.rect.center)
         self.direction = pygame.math.Vector2(1, 0)
+        self.z = 0
+        self.delta_z = 0
+        self.jump_init_delta_z = 400
+        self.jump_init_z = 1
+        self.gravity = -800
         self.speed = 200
         self.max_speed = 500
         self.min_speed = 200
@@ -128,7 +133,13 @@ class Player(pygame.sprite.Sprite):
 
         # Update position
         self.position += self.direction * self.speed * dt
-        self.rect.center = round(self.position.x), round(self.position.y)
+        if self.z != 0:
+            self.delta_z += self.gravity * dt
+            self.z += self.delta_z * dt
+            if self.z < 0:
+                self.z = 0
+                self.delta_z = 0
+        self.rect.center = round(self.position.x), round(self.position.y - self.z)
 
         # Adjust the scale factor based on the vertical position (y-coordinate)
         # The higher the y position, the smaller the sprite becomes, the lower the y position, the bigger the sprite.
@@ -188,7 +199,10 @@ class Player(pygame.sprite.Sprite):
             elif self.status == "idleLeft" or self.status == "left":
                 self.status = "jumpLeft"
             self.keypressed = "JUMP"
-            self.direction.y = -1
+            #self.direction.y = -1
+            if self.z == 0:
+                self.delta_z = self.jump_init_delta_z
+                self.z = self.jump_init_z
         elif (keys[pygame.K_a] and keys[pygame.K_s]):
             self.keypressed = "HALF SPIN"
         elif (keys[pygame.K_RSHIFT] or keys[pygame.K_LSHIFT]):
@@ -208,6 +222,13 @@ class Player(pygame.sprite.Sprite):
             self.direction.x = 0
             self.direction.y = 0
             self.keypressed = ""
+
+        # Override for jump animation in mid-air
+        if self.z != 0:
+            if self.status == "idleRight" or self.status == "right":
+                self.status = "jumpRight"
+            elif self.status == "idleLeft" or self.status == "left":
+                self.status = "jumpLeft"
     
     def show_keypressed(self, screen):
         my_font = pygame.font.Font("images/font.ttf", 50)
