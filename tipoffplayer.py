@@ -2,7 +2,7 @@ import pygame
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, groups):
+    def __init__(self, pos, groups, team):
         super().__init__(groups)
 
         # Jumping & Gravity
@@ -13,11 +13,12 @@ class Player(pygame.sprite.Sprite):
         self.is_landing = False
 
         self.ogPos = pos
-
+        
+        self.team = team
         self.import_assets()
         self.frame_index = 0
         self.image = self.idle_animation[self.frame_index]
-        self.rect = self.image.get_rect(center=pos)
+        self.rect = self.image.get_rect(center=self.ogPos)
 
         self.pos = pygame.math.Vector2(self.rect.center)
         self.direction = pygame.math.Vector2(0, 0)
@@ -35,22 +36,35 @@ class Player(pygame.sprite.Sprite):
         self.landing_sound = pygame.mixer.Sound("images/sounds/land.wav")
         self.landing_sound.set_volume(0.02)
 
+    def update_team(self, team):
+        self.team = team
+        self.import_assets()
+        self.frame_index = 0
+        self.image = self.idle_animation[self.frame_index]
+        self.rect = self.image.get_rect(center=self.ogPos)
+
     def import_assets(self):
+        team = self.team
+        if team == "LAKERS":
+            team = "lebron"
+        else:
+            team = "brunson"
+
         self.idle_animation = [
             pygame.image.load(
-                f"images/brunson/brunson_idle/{frame}.png"
+                f"images/{team}/{team}_idle/{frame}.png"
             ).convert_alpha()
             for frame in range(10)
         ]
         self.jump_animation = [
             pygame.image.load(
-                f"images/brunson/brunson_jump/{frame}.png"
+                f"images/{team}/{team}_jump/{frame}.png"
             ).convert_alpha()
             for frame in range(9)
         ]
         self.land_animation = [
             pygame.image.load(
-                f"images/brunson/brunson_land/{frame}.png"
+                f"images/{team}/{team}_land/{frame}.png"
             ).convert_alpha()
             for frame in range(9)
         ]

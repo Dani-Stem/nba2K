@@ -8,12 +8,13 @@ class Inbounder(pygame.sprite.Sprite):
     def __init__(self, pos, groups, inbounder_is_active, snap, team):
         super().__init__(groups)
         self.inbounder_is_active = inbounder_is_active
+        self.ogPos = pos
+        self.team = team
         self.import_assets()
         self.frame_index = 0
         self.image = self.animation[self.frame_index]
-        self.rect = self.image.get_rect(center=pos)
+        self.rect = self.image.get_rect(center=self.ogPos)
 
-        self.team = team
         self.snap = snap
         self.spacebar_pressed = 0
 
@@ -21,11 +22,18 @@ class Inbounder(pygame.sprite.Sprite):
         self.direction = pygame.math.Vector2(1, 0)
         self.speed = 200
 
+    def update_team(self, team):
+        self.team = team
+        self.import_assets()
+        self.frame_index = 0
+        self.image = self.animation[self.frame_index]
+        self.rect = self.image.get_rect(center=self.ogPos)
+
     def import_assets(self):
-        if self.team == "KNICKS":
-            path = "images/inbounder_brunson/"
-        elif self.team == "LAKERS":
+        if self.team == "LAKERS":
             path = "images/inbounder_lebron/"
+        else:
+            path = "images/inbounder_brunson/"
 
         self.animation = []
         for frame in range(3):

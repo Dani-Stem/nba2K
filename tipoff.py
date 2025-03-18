@@ -16,7 +16,7 @@ from menus import (
 
 
 class TipOff:
-    def __init__(self):
+    def __init__(self, team):
         pygame.init()
 
         # Constants
@@ -29,13 +29,17 @@ class TipOff:
         self.player_group = pygame.sprite.Group()
         self.cpu_group = pygame.sprite.Group()
         self.dropBall_group = pygame.sprite.Group()
+        self.team = team
 
+        player_team = self.team
+        cpu_team = ""
+        if player_team == "KNICKS":
+            cpu_team = "LAKERS"
+        else:
+            cpu_team = "KNICKS"
         # Create Players
-        self.player = Player((570, 612), self.player_group)
-        self.cpu = CPU(
-            (670, 612),
-            self.cpu_group,
-        )
+        self.player = Player((570, 612), self.player_group, player_team)
+        self.cpu = CPU((670, 612), self.cpu_group, cpu_team)
 
         # Create DropBall
         self.dropBall = DropBall((617, -50), self.dropBall_group)
@@ -80,6 +84,19 @@ class TipOff:
 
         self.continue_item = ["Continue", "Quit"]
         self.selected_index = 0
+        
+        self.team = team
+
+    def update_team(self, team):
+        self.team = team
+        player_team = self.team
+        cpu_team = ""
+        if player_team == "KNICKS":
+            cpu_team = "LAKERS"
+        else:
+            cpu_team = "KNICKS"
+        self.player.update_team(player_team)
+        self.cpu.update_team(cpu_team)
 
     def handle_events(self, events):
         for event in events:

@@ -106,10 +106,11 @@ def teamselect_menu(self):
                         self.team = "LAKERS"
 
                     self.confirm_sound.play()
+                    self.player.update_team(self.team)
+                    self.tipoff.update_team(self.team)
+                    self.inbounder.update_team(self.team)
                     self.howto_menu()
                     self.confirm_sound.play()
-
-
 
         self.render_teamselect_menu(selected_index2)
         pygame.display.flip()

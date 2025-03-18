@@ -4,17 +4,17 @@ import pygame
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, groups):
+    def __init__(self, pos, groups, team):
         super().__init__(groups)
         self.keypressed = ""
-        self.team = "NONE"
         self.status = "right"
+        self.team = team
+        self.haveball = False
         self.import_assets()
         self.frame_index = 0
         self.image = self.animation[self.frame_index]
         self.rect = self.image.get_rect(center=pos)
 
-      
         self.position = pygame.math.Vector2(self.rect.center)
         self.direction = pygame.math.Vector2(1, 0)
         self.z = 0
@@ -31,28 +31,32 @@ class Player(pygame.sprite.Sprite):
 
         self.white = (255, 255, 255)
 
-
-
+    def update_team(self, team):
+        self.team = team
 
     def import_assets(self):
         self.animation = []
+        team = self.team
+        if team == "LAKERS":
+            team = "lebron"
+        else:
+            team = "brunson"
 
-        
         #idle brunson right/left
         if self.status == "idleRight":
-            if self.team == True:
-                path = "images/brunson/right/"
+            if self.haveball == True:
+                path = f"images/{team}/right/"
             else:
-                path = "images/brunson/brunson_idle/"
+                path = f"images/{team}/{team}_idle/"
             for frame in range(8):
                 surf = pygame.image.load(f"{path}{frame}.png").convert_alpha()
                 surf = pygame.transform.scale(surf, (200, 200))
                 self.animation.append(surf)
         elif self.status == "idleLeft":
-            if self.team == True:
-                path = "images/brunson/left/"
+            if self.haveball == True:
+                path = f"images/{team}/left/"
             else:
-                path = "images/brunson/brunson_idle_left/"
+                path = f"images/{team}/{team}_idle_left/"
             for frame in range(7, -1, -1):
                 surf = pygame.image.load(f"{path}{frame}.png").convert_alpha()
                 surf = pygame.transform.scale(surf, (200, 200))
@@ -60,19 +64,19 @@ class Player(pygame.sprite.Sprite):
 
         #moving brunson right/left
         if self.status == "right":
-            if self.team == True:
-                path = "images/brunson/right/"
+            if self.haveball == True:
+                path = f"images/{team}/right/"
             else:
-                path = "images/brunson/brunson_run/"
+                path = f"images/{team}/{team}_run/"
             for frame in range(8):
                 surf = pygame.image.load(f"{path}{frame}.png").convert_alpha()
                 surf = pygame.transform.scale(surf, (200, 200))
                 self.animation.append(surf)
         elif self.status == "left":
-            if self.team == True:
-                path = "images/brunson/left/"
+            if self.haveball == True:
+                path = f"images/{team}/left/"
             else:
-                path = "images/brunson/brunson_run_left/"
+                path = f"images/{team}/{team}_run_left/"
             for frame in range(7, -1, -1):
                 surf = pygame.image.load(f"{path}{frame}.png").convert_alpha()
                 surf = pygame.transform.scale(surf, (200, 200))
@@ -80,19 +84,19 @@ class Player(pygame.sprite.Sprite):
         
         # #brunson jump right/left
         if self.status == "jumpRight":
-            if self.team == True:
-                path = "images/brunson/right/"
+            if self.haveball == True:
+                path = f"images/{team}/right/"
             else:
-                path = "images/brunson/brunson_jump/"
+                path = f"images/{team}/{team}_jump/"
             for frame in range(8):
                 surf = pygame.image.load(f"{path}{frame}.png").convert_alpha()
                 surf = pygame.transform.scale(surf, (200, 200))
                 self.animation.append(surf)
         elif self.status == "jumpLeft":
-            if self.team == True:
-                path = "images/brunson/left/"
+            if self.haveball == True:
+                path = f"images/{team}/left/"
             else:
-                path = "images/brunson/brunson_jump_left/"
+                path = f"images/{team}/{team}_jump_left/"
             for frame in range(7, -1, -1):
                 surf = pygame.image.load(f"{path}{frame}.png").convert_alpha()
                 surf = pygame.transform.scale(surf, (200, 200))
@@ -100,19 +104,19 @@ class Player(pygame.sprite.Sprite):
 
         #brunson shoot right/left
         if self.status == "shootRight":
-            if self.team == True:
-                path = "images/brunson/right/"
+            if self.haveball == True:
+                path = f"images/{team}/right/"
             else:
-                path = "images/brunson/brunson_shoot/"
+                path = f"images/{team}/{team}_shoot/"
             for frame in range(5):
                 surf = pygame.image.load(f"{path}{frame}.png").convert_alpha()
                 surf = pygame.transform.scale(surf, (200, 200))
                 self.animation.append(surf)
         elif self.status == "shootLeft":
-            if self.team == True:
-                path = "images/brunson/left/"
+            if self.haveball == True:
+                path = f"images/{team}/left/"
             else:
-                path = "images/brunson/brunson_shoot_left/"
+                path = f"images/{team}/{team}_shoot_left/"
             for frame in range(5, -1, -1):
                 surf = pygame.image.load(f"{path}{frame}.png").convert_alpha()
                 surf = pygame.transform.scale(surf, (200, 200))
@@ -120,19 +124,19 @@ class Player(pygame.sprite.Sprite):
 
         #brunson steal right/left
         if self.status == "stealRight":
-            if self.team == True:
-                path = "images/brunson/right/"
+            if self.haveball == True:
+                path = f"images/{team}/right/"
             else:
-                path = "images/brunson/brunson_steal/"
+                path = f"images/{team}/{team}_steal/"
             for frame in range(8):
                 surf = pygame.image.load(f"{path}{frame}.png").convert_alpha()
                 surf = pygame.transform.scale(surf, (200, 200))
                 self.animation.append(surf)
         elif self.status == "stealLeft":
-            if self.team == True:
-                path = "images/brunson/left/"
+            if self.haveball == True:
+                path = f"images/{team}/left/"
             else:
-                path = "images/brunson/brunson_steal_left/"
+                path = f"images/{team}/{team}_steal_left/"
             for frame in range(8, -1, -1):
                 surf = pygame.image.load(f"{path}{frame}.png").convert_alpha()
                 surf = pygame.transform.scale(surf, (200, 200))
