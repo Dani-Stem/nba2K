@@ -46,10 +46,9 @@ class Game:
         self.knicksbackground = pygame.image.load("images/knicks_court_alt.png").convert()
         self.lakersbackground = pygame.image.load("images/lakers_court_alt.png").convert()
         self.background = None
-        self.tipoff = TipOff()
+        self.tipoff = TipOff(self.team)
 
-
-        self.player = Player((250, 450), self.player_group)
+        self.player = Player((250, 450), self.player_group, self.team)
         self.inbounder = Inbounder(
             (250, 350),
             self.inbounder_group,
@@ -239,7 +238,7 @@ class Game:
 
     def teamselect_menu(self):
         teamselect_menu(self)
-            
+
     def render_teamselect_menu(self, selected_index2): 
         render_teamselect_menu(self, selected_index2)   
 

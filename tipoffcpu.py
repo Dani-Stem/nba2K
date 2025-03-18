@@ -2,7 +2,7 @@ import pygame
 
 
 class CPU(pygame.sprite.Sprite):
-    def __init__(self, pos, groups):
+    def __init__(self, pos, groups, team):
         super().__init__(groups)
 
         # Jumping & Gravity
@@ -14,10 +14,11 @@ class CPU(pygame.sprite.Sprite):
 
         self.ogPos = pos
 
+        self.team = team
         self.import_assets()
         self.frame_index = 0
         self.image = self.idle_animation[self.frame_index]
-        self.rect = self.image.get_rect(center=pos)
+        self.rect = self.image.get_rect(center=self.ogPos)
 
         self.pos = pygame.math.Vector2(self.rect.center)
         self.direction = pygame.math.Vector2(0, 0)
@@ -40,22 +41,35 @@ class CPU(pygame.sprite.Sprite):
         self.landing_sound = pygame.mixer.Sound("images/sounds/land.wav")
         self.landing_sound.set_volume(0.02)
 
+    def update_team(self, team):
+        self.team = team
+        self.import_assets()
+        self.frame_index = 0
+        self.image = self.idle_animation[self.frame_index]
+        self.rect = self.image.get_rect(center=self.ogPos)
+
     def import_assets(self):
+        team = self.team
+        if team == "LAKERS":
+            team = "lebron"
+        else:
+            team = "brunson"
+
         self.idle_animation = [
             pygame.image.load(
-                f"images/lebron/lebron_idle_left/{frame}.png"
+                f"images/{team}/{team}_idle_left/{frame}.png"
             ).convert_alpha()
             for frame in range(10)
         ]
         self.jump_animation = [
             pygame.image.load(
-                f"images/lebron/lebron_jump_left/{frame}.png"
+                f"images/{team}/{team}_jump_left/{frame}.png"
             ).convert_alpha()
             for frame in range(9)
         ]
         self.land_animation = [
             pygame.image.load(
-                f"images/lebron/lebron_land_left/{frame}.png"
+                f"images/{team}/{team}_land_left/{frame}.png"
             ).convert_alpha()
             for frame in range(9)
         ]
