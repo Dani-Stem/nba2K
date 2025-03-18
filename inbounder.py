@@ -5,7 +5,7 @@ from settings import WINDOW_WIDTH
 
 class Inbounder(pygame.sprite.Sprite):
 
-    def __init__(self, pos, groups, inbounder_is_active, snap):
+    def __init__(self, pos, groups, inbounder_is_active, snap, team):
         super().__init__(groups)
         self.inbounder_is_active = inbounder_is_active
         self.import_assets()
@@ -13,6 +13,7 @@ class Inbounder(pygame.sprite.Sprite):
         self.image = self.animation[self.frame_index]
         self.rect = self.image.get_rect(center=pos)
 
+        self.team = team
         self.snap = snap
         self.spacebar_pressed = 0
 
@@ -21,7 +22,10 @@ class Inbounder(pygame.sprite.Sprite):
         self.speed = 200
 
     def import_assets(self):
-        path = "images/inbounder/"
+        if self.team == "KNICKS":
+            path = "images/inbounder_brunson/"
+        elif self.team == "LAKERS":
+            path = "images/inbounder_lebron/"
 
         self.animation = []
         for frame in range(3):

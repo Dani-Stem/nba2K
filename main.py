@@ -55,6 +55,7 @@ class Game:
             self.inbounder_group,
             self.inbounder_is_active,
             self.snap,
+            self.team
         )
 
         #channels

@@ -41,6 +41,7 @@ class TipOff:
         self.dropBall = DropBall((617, -50), self.dropBall_group)
 
         # Load background
+        
         self.background = pygame.image.load(
             "images/courts/knicks_court_alt.png"
         ).convert()
