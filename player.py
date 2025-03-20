@@ -62,7 +62,7 @@ class Player(pygame.sprite.Sprite):
                 surf = pygame.transform.scale(surf, (200, 200))
                 self.animation.append(surf)
 
-        #moving brunson right/left
+        #moving right/left
         if self.status == "right":
             if self.haveball == True:
                 path = f"images/{team}/right/"
@@ -82,7 +82,7 @@ class Player(pygame.sprite.Sprite):
                 surf = pygame.transform.scale(surf, (200, 200))
                 self.animation.append(surf)
         
-        # #brunson jump right/left
+        # #jump right/left
         if self.status == "jumpRight":
             if self.haveball == True:
                 path = f"images/{team}/right/"
@@ -102,7 +102,7 @@ class Player(pygame.sprite.Sprite):
                 surf = pygame.transform.scale(surf, (200, 200))
                 self.animation.append(surf)
 
-        #brunson shoot right/left
+        #shoot right/left
         if self.status == "shootRight":
             if self.haveball == True:
                 path = f"images/{team}/right/"
@@ -122,7 +122,7 @@ class Player(pygame.sprite.Sprite):
                 surf = pygame.transform.scale(surf, (200, 200))
                 self.animation.append(surf)
 
-        #brunson steal right/left
+        #steal right/left
         if self.status == "stealRight":
             if self.haveball == True:
                 path = f"images/{team}/right/"

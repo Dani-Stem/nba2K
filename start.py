@@ -109,11 +109,25 @@ def teamselect_menu(self):
                     self.player.update_team(self.team)
                     self.tipoff.update_team(self.team)
                     self.inbounder.update_team(self.team)
-                    self.howto_menu()
+                    self.playerselect_menu()
                     self.confirm_sound.play()
 
         self.render_teamselect_menu(selected_index2)
         pygame.display.flip()
+
+def playerselect_menu(self):
+     
+    while True:
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    self.start_sound.play()
+                    self.howto_menu()
 
 def howto_menu(self):
 

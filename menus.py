@@ -77,7 +77,7 @@ def render_continue_menu(self):
     select_font = pygame.font.Font("images/font.ttf", 100)
 
     if self.winner:
-        menu_text = "KNICKS BALL"
+        menu_text = f"{self.player_team} BALL"
         menu_color = "orange"
     elif not self.winner:
         menu_text = "LAKERS BALL"

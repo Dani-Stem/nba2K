@@ -31,28 +31,18 @@ class TipOff:
         self.dropBall_group = pygame.sprite.Group()
         self.team = team
 
-        player_team = self.team
-        cpu_team = ""
-        if player_team == "KNICKS":
+        self.player_team = self.team
+        self.cpu_team = ""
+        if self.player_team == "KNICKS":
             cpu_team = "LAKERS"
         else:
             cpu_team = "KNICKS"
         # Create Players
-        self.player = Player((570, 612), self.player_group, player_team)
+        self.player = Player((570, 612), self.player_group, self.player_team)
         self.cpu = CPU((670, 612), self.cpu_group, cpu_team)
 
         # Create DropBall
         self.dropBall = DropBall((617, -50), self.dropBall_group)
-
-        # Load background
-        
-        self.background = pygame.image.load(
-            "images/courts/knicks_court_alt.png"
-        ).convert()
-        self.transparent_background, self.spotlight = (
-            Background().generate_background(),
-            Background().generate_spotlight(),
-        )
 
         # Sounds
         if not hasattr(self, "tipoff_channel"):
@@ -89,14 +79,26 @@ class TipOff:
 
     def update_team(self, team):
         self.team = team
-        player_team = self.team
+        self.player_team = self.team
         cpu_team = ""
-        if player_team == "KNICKS":
+        if self.player_team == "KNICKS":
             cpu_team = "LAKERS"
         else:
             cpu_team = "KNICKS"
-        self.player.update_team(player_team)
+        self.player.update_team(self.player_team)
         self.cpu.update_team(cpu_team)
+
+        
+        # Load background
+        
+        self.background = pygame.image.load(
+            f"images/courts/{self.player_team.lower()}_court_alt.png"
+        ).convert()
+        self.transparent_background, self.spotlight = (
+            Background().generate_background(),
+            Background().generate_spotlight(),
+        )
+
 
     def handle_events(self, events):
         for event in events:
