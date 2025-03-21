@@ -7,7 +7,7 @@ from tipoff import TipOff
 from game_loop import game_loop
 from all_sprites import AllSprites
 
-from start import start_menu, render_teamselect_menu, teamselect_menu, howto_menu
+from start import start_menu, render_teamselect_menu, teamselect_menu, howto_menu, playerselect_menu, render_playerselect_menu
 from main_menu import main_menu, render_menu
 
 class Game:
@@ -88,14 +88,11 @@ class Game:
 
         ]
 
-        self.teamselect_instructions = [
-            "CHOOSE YOUR TEAM:",
-            "",
-            "USE ARROW KEYS TO SELECT",
-            "PRESS ENTER TO CONTINUE",
-        ]
 
         self.teamselect_menu_items = ["KNICKS", "LAKERS"]
+
+
+        self.playerselect_menu_items = ["BRUNSON", "LEBRON"]
 
 
         #Sounds
@@ -241,6 +238,12 @@ class Game:
 
     def render_teamselect_menu(self, selected_index2): 
         render_teamselect_menu(self, selected_index2)   
+
+    def playerselect_menu(self):
+        playerselect_menu(self)
+
+    def render_playerselect_menu(self, selected_index3):
+        render_playerselect_menu(self, selected_index3)
 
     def howto_menu(self):
         howto_menu(self)  

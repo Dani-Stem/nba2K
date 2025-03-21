@@ -115,19 +115,84 @@ def teamselect_menu(self):
         self.render_teamselect_menu(selected_index2)
         pygame.display.flip()
 
-def playerselect_menu(self):
-     
-    while True:
+def render_playerselect_menu(self, selected_index3):
 
+    self.screen.fill(self.BLACK)
+    teamselect_font = pygame.font.Font("images/font.ttf", 150)
+    select_font = pygame.font.Font("images/font.ttf", 100)
+
+    score_surface = teamselect_font.render("PICK UR PLAYER", True, "yellow")
+    score_rect = score_surface.get_rect()
+    score_rect.midtop = (WINDOW_WIDTH // 2, WINDOW_HEIGHT / 10)
+    self.screen.blit(score_surface, score_rect)
+    for index, item in enumerate(self.playerselect_menu_items):
+        if index == selected_index3:
+            text_color = self.HIGHLIGHT
+            if self.playerselect_menu_items[selected_index3] == "BRUNSON":
+                text_color = "purple"
+            elif self.playerselect_menu_items[selected_index3] == 'LEBRON':
+                text_color = "blue"
+        else:
+            text_color = self.WHITE
+
+        menu_text = select_font.render(item, True, text_color)
+
+        text_rect = menu_text.get_rect(
+            center=(
+                WINDOW_WIDTH / 1.48 + (index - len(self.playerselect_menu_items) // 2) * 480,
+                WINDOW_HEIGHT // 1.2,
+            )
+        )
+        self.screen.blit(menu_text, text_rect)
+
+
+
+def playerselect_menu(self):
+
+    selected_index3 = 0
+    running = True
+
+    # Disable spacebar for a few seconds when the menu is rendered
+    self.spacebar_enabled = False
+    pygame.time.set_timer(pygame.USEREVENT, 100)
+
+    while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
 
+            if event.type == pygame.USEREVENT:
+                self.spacebar_enabled = True
+                pygame.time.set_timer(pygame.USEREVENT, 0)  # Stop the timer
+
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
-                    self.start_sound.play()
+                if not self.spacebar_enabled and event.key == pygame.K_SPACE:
+                    continue  # Ignore spacebar presses if disabled
+
+                self.highlight_sound.play()
+                if event.key == pygame.K_LEFT:
+                    self.highlight_sound.play()
+                    selected_index3 = (selected_index3 - 1) % len(self.playerselect_menu_items)
+                elif event.key == pygame.K_RIGHT:
+                    self.highlight_sound.play()
+                    selected_index3 = (selected_index3 + 1) % len(self.playerselect_menu_items)
+                elif event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+
+                    if self.playerselect_menu_items[selected_index3] == "BRUNSON":
+                        self.selectedplayer = "brunson"
+                        
+                    elif self.playerselect_menu_items[selected_index3] == "LEBRON":
+                        self.selectedplayer = "lebron"
+
+                    self.confirm_sound.play()
+                    self.player.update_team(self.selectedplayer)
+                    self.inbounder.update_team(self.selectedplayer)
                     self.howto_menu()
+                    self.confirm_sound.play()
+  
+        self.render_playerselect_menu(selected_index3)
+        pygame.display.flip()          
 
 def howto_menu(self):
 
