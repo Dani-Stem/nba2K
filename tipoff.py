@@ -16,7 +16,7 @@ from menus import (
 
 
 class TipOff:
-    def __init__(self, team):
+    def __init__(self, team, selectedplayer):
         pygame.init()
 
         # Constants
@@ -30,6 +30,7 @@ class TipOff:
         self.cpu_group = pygame.sprite.Group()
         self.dropBall_group = pygame.sprite.Group()
         self.team = team
+        self.selectedplayer = selectedplayer
 
         self.player_team = self.team
         self.cpu_team = ""
@@ -76,7 +77,8 @@ class TipOff:
         self.selected_index = 0
         
         self.team = team
-
+        self.selectedplayer = selectedplayer
+        
     def update_team(self, team):
         self.team = team
         self.player_team = self.team
@@ -88,6 +90,10 @@ class TipOff:
         self.player.update_team(self.player_team)
         self.cpu.update_team(cpu_team)
 
+    def update_player(self, selectedplayer):
+        self.selectedplayer = selectedplayer
+        self.player_selectedplayer = self.selectedplayer
+        self.selectedplayer.update_selectedplayer(self.player_selectedplayer)
         
         # Load background
         

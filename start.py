@@ -119,7 +119,7 @@ def render_playerselect_menu(self, selected_index3):
 
     self.screen.fill(self.BLACK)
     teamselect_font = pygame.font.Font("images/font.ttf", 150)
-    select_font = pygame.font.Font("images/font.ttf", 100)
+    select_font = pygame.font.Font("images/font.ttf", 50)
 
     score_surface = teamselect_font.render("PICK UR PLAYER", True, "yellow")
     score_rect = score_surface.get_rect()
@@ -128,19 +128,18 @@ def render_playerselect_menu(self, selected_index3):
     for index, item in enumerate(self.playerselect_menu_items):
         if index == selected_index3:
             text_color = self.HIGHLIGHT
-            if self.playerselect_menu_items[selected_index3] == "BRUNSON":
-                text_color = "purple"
-            elif self.playerselect_menu_items[selected_index3] == 'LEBRON':
-                text_color = "blue"
+            if self.playerselect_menu_items[selected_index3] != "":
+                text_color = "yellow"
         else:
             text_color = self.WHITE
 
         menu_text = select_font.render(item, True, text_color)
+        
 
         text_rect = menu_text.get_rect(
             center=(
-                WINDOW_WIDTH / 1.48 + (index - len(self.playerselect_menu_items) // 2) * 480,
-                WINDOW_HEIGHT // 1.2,
+                WINDOW_WIDTH / 2 + (index - len(self.playerselect_menu_items) // 2) * 200,
+                WINDOW_HEIGHT // 1.8,
             )
         )
         self.screen.blit(menu_text, text_rect)
@@ -184,10 +183,13 @@ def playerselect_menu(self):
                         
                     elif self.playerselect_menu_items[selected_index3] == "LEBRON":
                         self.selectedplayer = "lebron"
+                        
+                    elif self.playerselect_menu_items[selected_index3] == "MELO":
+                        self.selectedplayer = "melo"
 
                     self.confirm_sound.play()
-                    self.player.update_team(self.selectedplayer)
-                    self.inbounder.update_team(self.selectedplayer)
+                    self.player.update_selectedplayer(self.selectedplayer)
+                    self.inbounder.update_selectedplayer(self.selectedplayer)
                     self.howto_menu()
                     self.confirm_sound.play()
   

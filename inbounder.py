@@ -5,11 +5,12 @@ from settings import WINDOW_WIDTH
 
 class Inbounder(pygame.sprite.Sprite):
 
-    def __init__(self, pos, groups, inbounder_is_active, snap, team):
+    def __init__(self, pos, groups, inbounder_is_active, snap, team, selectedplayer):
         super().__init__(groups)
         self.inbounder_is_active = inbounder_is_active
         self.ogPos = pos
         self.team = team
+        self.selectedplayer = selectedplayer
         self.import_assets()
         self.frame_index = 0
         self.image = self.animation[self.frame_index]
@@ -24,6 +25,13 @@ class Inbounder(pygame.sprite.Sprite):
 
     def update_team(self, team):
         self.team = team
+        self.import_assets()
+        self.frame_index = 0
+        self.image = self.animation[self.frame_index]
+        self.rect = self.image.get_rect(center=self.ogPos)
+
+    def update_selectedplayer(self, selectedplayer):
+        self.selectedplayer = selectedplayer
         self.import_assets()
         self.frame_index = 0
         self.image = self.animation[self.frame_index]

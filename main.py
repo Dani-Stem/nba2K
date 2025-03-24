@@ -29,6 +29,7 @@ class Game:
         self.menu = False
         self.team = "NONE"
         self.keypressed = ""
+        self.selectedplayer = "NONE"
 
         # Colors
         self.WHITE = (255, 255, 255)
@@ -46,15 +47,16 @@ class Game:
         self.knicksbackground = pygame.image.load("images/knicks_court_alt.png").convert()
         self.lakersbackground = pygame.image.load("images/lakers_court_alt.png").convert()
         self.background = None
-        self.tipoff = TipOff(self.team)
+        self.tipoff = TipOff(self.team, self.selectedplayer)
 
-        self.player = Player((250, 450), self.player_group, self.team)
+        self.player = Player((250, 450), self.player_group, self.team, self.selectedplayer)
         self.inbounder = Inbounder(
             (250, 350),
             self.inbounder_group,
             self.inbounder_is_active,
             self.snap,
-            self.team
+            self.team,
+            self.selectedplayer
         )
 
         #channels
@@ -92,7 +94,7 @@ class Game:
         self.teamselect_menu_items = ["KNICKS", "LAKERS"]
 
 
-        self.playerselect_menu_items = ["BRUNSON", "LEBRON"]
+        self.playerselect_menu_items = ["BRUNSON", "MELO", "LEBRON"]
 
 
         #Sounds
@@ -253,6 +255,7 @@ class Game:
         """
         self.coin_menu()
         self.teamselect_menu()
+        self.playerselect_menu()
         self.howto_menu()
         self.main_menu()
         self.player_loop()

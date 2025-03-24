@@ -4,11 +4,12 @@ import pygame
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, groups, team):
+    def __init__(self, pos, groups, team, selectedplayer):
         super().__init__(groups)
         self.keypressed = ""
         self.status = "right"
         self.team = team
+        self.selectedplayer = selectedplayer
         self.haveball = False
         self.import_assets()
         self.frame_index = 0
@@ -33,6 +34,9 @@ class Player(pygame.sprite.Sprite):
 
     def update_team(self, team):
         self.team = team
+
+    def update_selectedplayer(self, selectedplayer):
+        self.selectedplayer = selectedplayer
 
     def import_assets(self):
         self.animation = []
@@ -338,10 +342,12 @@ class Player(pygame.sprite.Sprite):
         screen,
         time,
         team,
+        selectedplayer,
         keypressed,
     ):
         self.keypressed = keypressed
         self.team = team
+        self.selectedplayer = selectedplayer
         self.outOfBounds = False
         self.input(events)
         self.move(dt, screen, time)
