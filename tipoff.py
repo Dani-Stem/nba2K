@@ -39,7 +39,7 @@ class TipOff:
         else:
             cpu_team = "KNICKS"
         # Create Players
-        self.player = Player((570, 612), self.player_group, self.player_team)
+        self.player = Player((570, 612), self.player_group, self.player_team, self.selectedplayer)
         self.cpu = CPU((670, 612), self.cpu_group, cpu_team)
 
         # Create DropBall
@@ -78,7 +78,7 @@ class TipOff:
         
         self.team = team
         self.selectedplayer = selectedplayer
-        
+
     def update_team(self, team):
         self.team = team
         self.player_team = self.team
@@ -90,10 +90,9 @@ class TipOff:
         self.player.update_team(self.player_team)
         self.cpu.update_team(cpu_team)
 
-    def update_player(self, selectedplayer):
+    def update_selectedplayer(self, selectedplayer):
         self.selectedplayer = selectedplayer
         self.player_selectedplayer = self.selectedplayer
-        self.selectedplayer.update_selectedplayer(self.player_selectedplayer)
         
         # Load background
         

@@ -2,7 +2,7 @@ import pygame
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, groups, team):
+    def __init__(self, pos, groups, team, selectedplayer):
         super().__init__(groups)
 
         # Jumping & Gravity
@@ -15,6 +15,7 @@ class Player(pygame.sprite.Sprite):
         self.ogPos = pos
         
         self.team = team
+        self.selectedplayer = selectedplayer
         self.import_assets()
         self.frame_index = 0
         self.image = self.idle_animation[self.frame_index]
@@ -43,6 +44,13 @@ class Player(pygame.sprite.Sprite):
         self.image = self.idle_animation[self.frame_index]
         self.rect = self.image.get_rect(center=self.ogPos)
 
+    def update_selectedplayer(self, selectedplayer):
+        self.selectedplayer = selectedplayer
+        self.import_assets()
+        self.frame_index = 0
+        self.image = self.idle_animation[self.frame_index]
+        self.rect = self.image.get_rect(center=self.ogPos)
+
     def import_assets(self):
         team = self.team
         if team == "LAKERS":
@@ -50,21 +58,29 @@ class Player(pygame.sprite.Sprite):
         else:
             team = "brunson"
 
+        selectedplayer = self.selectedplayer
+        if selectedplayer == "LEBRON":
+            selectedplayer = "lebron"
+        elif selectedplayer == "BRUNSON":
+            selectedplayer = "brunson"
+        elif selectedplayer == "MELO":
+            selectedplayer = "melo"
+
         self.idle_animation = [
             pygame.image.load(
-                f"images/{team}/{team}_idle/{frame}.png"
+                f"images/{selectedplayer}/{selectedplayer}_idle/{frame}.png"
             ).convert_alpha()
             for frame in range(10)
         ]
         self.jump_animation = [
             pygame.image.load(
-                f"images/{team}/{team}_jump/{frame}.png"
+                f"images/{selectedplayer}/{selectedplayer}_jump/{frame}.png"
             ).convert_alpha()
             for frame in range(9)
         ]
         self.land_animation = [
             pygame.image.load(
-                f"images/{team}/{team}_land/{frame}.png"
+                f"images/{selectedplayer}/{selectedplayer}_land/{frame}.png"
             ).convert_alpha()
             for frame in range(9)
         ]

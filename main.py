@@ -29,7 +29,7 @@ class Game:
         self.menu = False
         self.team = "NONE"
         self.keypressed = ""
-        self.selectedplayer = "NONE"
+        self.selectedplayer = "lebron"
 
         # Colors
         self.WHITE = (255, 255, 255)

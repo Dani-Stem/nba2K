@@ -190,6 +190,7 @@ def playerselect_menu(self):
                     self.confirm_sound.play()
                     self.player.update_selectedplayer(self.selectedplayer)
                     self.inbounder.update_selectedplayer(self.selectedplayer)
+                    self.tipoff.update_selectedplayer(self.selectedplayer)
                     self.howto_menu()
                     self.confirm_sound.play()
   

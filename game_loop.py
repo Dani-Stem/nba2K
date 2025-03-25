@@ -64,6 +64,7 @@ def game_loop(self):
                 self.screen,
                 time,
                 self.team,
+                self.selectedplayer,
                 self.keypressed,
             )
 
