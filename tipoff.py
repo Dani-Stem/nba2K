@@ -92,10 +92,9 @@ class TipOff:
 
     def update_selectedplayer(self, selectedplayer):
         self.selectedplayer = selectedplayer
-        self.player_selectedplayer = self.selectedplayer
-        
+        self.player.update_selectedplayer(selectedplayer) 
+
         # Load background
-        
         self.background = pygame.image.load(
             f"images/courts/{self.player_team.lower()}_court_alt.png"
         ).convert()
