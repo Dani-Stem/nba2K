@@ -89,7 +89,8 @@ class Game:
         self.teamselect_menu_items = ["KNICKS", "LAKERS"]
 
 
-        self.playerselect_menu_items = ["BRUNSON", "MELO", "LEBRON"]
+        self.playerselectknicks_menu_items = ["BRUNSON", "MELO"]
+        self.playerselectlakers_menu_items = ["LEBRON"]
 
 
         #Sounds
@@ -207,7 +208,29 @@ class Game:
         self.screen.blit(
             implogoknx,
             pygame.Rect(170, 125, 10, 10),
+        )   
+
+    
+    def ps_brunson(self):
+        ts_brunson = pygame.image.load("images/brunson/brunson_idle/0.png").convert_alpha()
+        self.screen.blit(
+            ts_brunson,
+            pygame.Rect(170, 125, 10, 10),
         )    
+
+    def ps_melo(self):
+        ts_melo = pygame.image.load("images/melo/melo_idle/0.png").convert_alpha()
+        self.screen.blit(
+            ts_melo,
+            pygame.Rect(170, 125, 10, 10),
+        )   
+
+    def ps_lebron(self):
+        ts_lebron = pygame.image.load("images/lebron/lebron_idle/0.png").convert_alpha()
+        self.screen.blit(
+            ts_lebron,
+            pygame.Rect(170, 125, 10, 10),
+        )  
 
     def howto(self, lines, color, start_pos, line_spacing=5):
         font = pygame.font.Font("images/font.ttf", 30)

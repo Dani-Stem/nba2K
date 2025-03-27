@@ -125,10 +125,19 @@ def render_playerselect_menu(self, selected_index3):
     score_rect = score_surface.get_rect()
     score_rect.midtop = (WINDOW_WIDTH // 2, WINDOW_HEIGHT / 10)
     self.screen.blit(score_surface, score_rect)
-    for index, item in enumerate(self.playerselect_menu_items):
+        
+    menu_items = None
+    print(self.team)
+
+    if self.team == "LAKERS":
+        menu_items = self.playerselectlakers_menu_items
+    elif self.team == "KNICKS":
+        menu_items = self.playerselectknicks_menu_items
+
+    for index, item in enumerate(menu_items):
         if index == selected_index3:
             text_color = self.HIGHLIGHT
-            if self.playerselect_menu_items[selected_index3] != "":
+            if menu_items[selected_index3] != "":
                 text_color = "yellow"
         else:
             text_color = self.WHITE
@@ -138,11 +147,16 @@ def render_playerselect_menu(self, selected_index3):
 
         text_rect = menu_text.get_rect(
             center=(
-                WINDOW_WIDTH / 2 + (index - len(self.playerselect_menu_items) // 2) * 200,
+                WINDOW_WIDTH / 2 + (index - len(menu_items) // 2) * 200,
                 WINDOW_HEIGHT // 1.8,
             )
         )
         self.screen.blit(menu_text, text_rect)
+        if self.team == "KNICKS":
+            self.ps_brunson()
+            self.ps_melo()
+        elif self.team == "LAKERS":
+            self.ps_lebron()
 
 
 
@@ -150,6 +164,12 @@ def playerselect_menu(self):
 
     selected_index3 = 0
     running = True
+
+    menu_items = None
+    if self.team == "LAKERS":
+        menu_items = self.playerselectlakers_menu_items
+    elif self.team == "KNICKS":
+        menu_items = self.playerselectknicks_menu_items
 
     # Disable spacebar for a few seconds when the menu is rendered
     self.spacebar_enabled = False
@@ -172,19 +192,19 @@ def playerselect_menu(self):
                 self.highlight_sound.play()
                 if event.key == pygame.K_LEFT:
                     self.highlight_sound.play()
-                    selected_index3 = (selected_index3 - 1) % len(self.playerselect_menu_items)
+                    selected_index3 = (selected_index3 - 1) % len(menu_items)
                 elif event.key == pygame.K_RIGHT:
                     self.highlight_sound.play()
-                    selected_index3 = (selected_index3 + 1) % len(self.playerselect_menu_items)
+                    selected_index3 = (selected_index3 + 1) % len(menu_items)
                 elif event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
 
-                    if self.playerselect_menu_items[selected_index3] == "BRUNSON":
+                    if menu_items[selected_index3] == "BRUNSON":
                         self.selectedplayer = "brunson"
                         
-                    elif self.playerselect_menu_items[selected_index3] == "LEBRON":
+                    elif menu_items[selected_index3] == "LEBRON":
                         self.selectedplayer = "lebron"
                         
-                    elif self.playerselect_menu_items[selected_index3] == "MELO":
+                    elif menu_items[selected_index3] == "MELO":
                         self.selectedplayer = "melo"
 
                     self.confirm_sound.play()
@@ -195,7 +215,7 @@ def playerselect_menu(self):
                     self.confirm_sound.play()
   
         self.render_playerselect_menu(selected_index3)
-        pygame.display.flip()          
+        pygame.display.flip()        
 
 def howto_menu(self):
 
