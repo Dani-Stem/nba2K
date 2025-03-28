@@ -1,20 +1,17 @@
 import pygame
 import time
-from settings import WINDOW_WIDTH
 
 
 class Inbounder(pygame.sprite.Sprite):
 
-    def __init__(self, pos, groups, inbounder_is_active, snap, team, selectedplayer):
+    def __init__(self, pos, groups, inbounder_is_active, snap):
         super().__init__(groups)
+        self.WINDOW_WIDTH, self.WINDOW_HEIGHT = 1215, 812
         self.inbounder_is_active = inbounder_is_active
-        self.ogPos = pos
-        self.team = team
-        self.selectedplayer = selectedplayer
         self.import_assets()
         self.frame_index = 0
         self.image = self.animation[self.frame_index]
-        self.rect = self.image.get_rect(center=self.ogPos)
+        self.rect = self.image.get_rect(center=pos)
 
         self.snap = snap
         self.spacebar_pressed = 0
@@ -23,25 +20,8 @@ class Inbounder(pygame.sprite.Sprite):
         self.direction = pygame.math.Vector2(1, 0)
         self.speed = 200
 
-    def update_team(self, team):
-        self.team = team
-        self.import_assets()
-        self.frame_index = 0
-        self.image = self.animation[self.frame_index]
-        self.rect = self.image.get_rect(center=self.ogPos)
-
-    def update_selectedplayer(self, selectedplayer):
-        self.selectedplayer = selectedplayer
-        self.import_assets()
-        self.frame_index = 0
-        self.image = self.animation[self.frame_index]
-        self.rect = self.image.get_rect(center=self.ogPos)
-
     def import_assets(self):
-        if self.team == "LAKERS":
-            path = "images/inbounder_lebron/"
-        else:
-            path = "images/inbounder_brunson/"
+        path = "images/inbounder/"
 
         self.animation = []
         for frame in range(3):
@@ -52,7 +32,7 @@ class Inbounder(pygame.sprite.Sprite):
         my_font = pygame.font.Font("images/font.ttf", 100)
         downs_surface = my_font.render("INCOMPLETE PASS", True, "red")
         downs_rect = downs_surface.get_rect()
-        downs_rect.midtop = (WINDOW_WIDTH / 2, 300)
+        downs_rect.midtop = (self.WINDOW_WIDTH / 2, 300)
         screen.blit(downs_surface, downs_rect)
         pygame.display.flip()
         self.football_outOfBounds = True
@@ -73,7 +53,7 @@ class Inbounder(pygame.sprite.Sprite):
         if self.position.y > 575:
             self.position.y = 575
 
-        if self.position.x > WINDOW_WIDTH:
+        if self.position.x > self.WINDOW_WIDTH:
             self.position.x = 0
 
     def draw(self, screen):

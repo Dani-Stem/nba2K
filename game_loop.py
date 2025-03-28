@@ -3,6 +3,8 @@ import time
 
 
 def game_loop(self):
+    self.tipoff_music.stop()
+    self.game_music.play(loops=-1)
     while True:
 
         events = pygame.event.get()
@@ -12,14 +14,13 @@ def game_loop(self):
                 sys.exit()
 
         dt = self.clock.tick() / 1000
-        
-        if self.team == "KNICKS":
+
+        if self.team == "knicks" or self.team == None:
             self.screen.blit(self.knicksbackground, (0, 0))
             self.background = self.knicksbackground
-        elif self.team == "LAKERS":
+        elif self.team == "lakers":
             self.screen.blit(self.lakersbackground, (0, 0))
             self.background = self.lakersbackground
-
 
         self.qtr = self.show_qtr(self.qtr, self.screen)
 
@@ -37,6 +38,10 @@ def game_loop(self):
             )
 
             self.inbounder.snap_throw_instructions(self.screen)
+
+            # self.testball_group.draw(self.screen)
+            self.ball = self.testball.update(self.ball)
+            self.ball = self.testball2.update(self.ball)
 
         else:
             (
@@ -58,19 +63,17 @@ def game_loop(self):
                 self.show_score,
             )
 
-            self.outOfBounds = self.player.update(
-                dt,
-                events,
-                self.screen,
-                time,
-                self.team,
-                self.selectedplayer,
-                self.keypressed,
+            # self.testball_group.draw(self.screen)
+            self.ball = self.testball.update(self.ball)
+            self.ball = self.testball2.update(self.ball)
+
+            self.outOfBounds, self.ball = self.player.update(
+                dt, events, self.screen, time, self.team, self.winner, self.ball
             )
 
         if self.outOfBounds:
+            self.ball = False
             self.snap = False
             self.qtr += 1
-
 
         pygame.display.update()
