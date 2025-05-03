@@ -54,7 +54,7 @@ class TipoffCPU(pygame.sprite.Sprite):
                 pygame.image.load(
                     f"images/lakers/lebron/lebron_jump_left/{frame}.png"
                 ).convert_alpha()
-                for frame in range(9)
+                for frame in range(6)
             ]
             self.land_animation = [
                 pygame.image.load(
@@ -75,7 +75,7 @@ class TipoffCPU(pygame.sprite.Sprite):
                 pygame.image.load(
                     f"images/knicks/brunson/brunson_jump_left/{frame}.png"
                 ).convert_alpha()
-                for frame in range(9)
+                for frame in range(6)
             ]
             self.land_animation = [
                 pygame.image.load(
