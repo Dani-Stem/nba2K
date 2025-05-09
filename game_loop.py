@@ -68,7 +68,7 @@ def game_loop(self):
             self.ball = self.testball2.update(self.ball)
 
             self.outOfBounds, self.ball = self.player.update(
-                dt, events, self.screen, time, self.team, self.winner, self.ball
+                dt, events, self.screen, time, self.team, self.winner, self.ball, self.selected_player
             )
 
         if self.outOfBounds:

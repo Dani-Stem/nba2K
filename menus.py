@@ -30,8 +30,8 @@ def start_menu(self):
         self.show_startscreensub1()
         pygame.display.flip()
 
-def render_playerselect_menu(self):
 
+def render_playerselect_menu(self):
     self.screen.fill(self.BLACK)
     teamselect_font = pygame.font.Font("images/font.ttf", 150)
     select_font = pygame.font.Font("images/font.ttf", 50)
@@ -40,50 +40,42 @@ def render_playerselect_menu(self):
     score_rect = score_surface.get_rect()
     score_rect.midtop = (self.WINDOW_WIDTH // 2, self.WINDOW_HEIGHT / 10)
     self.screen.blit(score_surface, score_rect)
-    
-    menu_items = None
-    print(self.team)
 
-    if self.team == "LAKERS":
+    menu_items = ""
+
+    if self.team == "lakers":
         menu_items = self.playerselectlakers_menu_items
-    elif self.team == "KNICKS":
+    elif self.team == "knicks":
         menu_items = self.playerselectknicks_menu_items
 
     for index, item in enumerate(menu_items):
-        if index == self.selected_index3:
+        if index == self.player_selected_index:
             text_color = self.HIGHLIGHT
-            if menu_items[self.selected_index3] != "":
+            if menu_items[self.player_selected_index] != "":
                 text_color = "yellow"
         else:
             text_color = self.WHITE
 
         menu_text = select_font.render(item, True, text_color)
-        
 
         text_rect = menu_text.get_rect(
             center=(
                 self.WINDOW_WIDTH / 2 + (index - len(menu_items) // 2) * 200,
-                self.WINDOW_HEIGHT // 1.8,
+                self.WINDOW_HEIGHT // 1.2,
             )
         )
         self.screen.blit(menu_text, text_rect)
-        if self.team == "KNICKS":
-            self.ps_brunson()
-            self.ps_melo()
-        elif self.team == "LAKERS":
-            self.ps_lebron()
+
+        self.player_select()
 
 
 def playerselect_menu(self):
-
-    self.selected_index3 = 0
     running = True
 
-    menu_items = None
-    if self.team == "LAKERS":
-        menu_items = self.playerselectlakers_menu_items
-    elif self.team == "KNICKS":
-        menu_items = self.playerselectknicks_menu_items
+    if self.team == "lakers":
+        self.player_menu_items = self.playerselectlakers_menu_items
+    elif self.team == "knicks":
+        self.player_menu_items = self.playerselectknicks_menu_items
 
     # Disable spacebar for a few seconds when the menu is rendered
     self.spacebar_enabled = False
@@ -106,30 +98,52 @@ def playerselect_menu(self):
                 self.highlight_sound.play()
                 if event.key == pygame.K_LEFT:
                     self.highlight_sound.play()
-                    self.selected_index3 = (self.selected_index3 - 1) % len(menu_items)
+                    self.player_selected_index = (self.player_selected_index - 1) % len(
+                        self.player_menu_items
+                    )
                 elif event.key == pygame.K_RIGHT:
                     self.highlight_sound.play()
-                    self.selected_index3 = (self.selected_index3 + 1) % len(menu_items)
+                    self.player_selected_index = (self.player_selected_index + 1) % len(
+                        self.player_menu_items
+                    )
                 elif event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
 
-                    if menu_items[self.selected_index3] == "BRUNSON":
-                        self.selectedplayer = "brunson"
-                        
-                    elif menu_items[self.selected_index3] == "LEBRON":
-                        self.selectedplayer = "lebron"
-                        
-                    elif menu_items[self.selected_index3] == "MELO":
-                        self.selectedplayer = "melo"
+                    if self.player_menu_items[self.player_selected_index] == "brunson":
+                        self.selected_player = "brunson"
+
+                    elif self.player_menu_items[self.player_selected_index] == "melo":
+                        self.selected_player = "melo"
+
+                    elif self.player_menu_items[self.player_selected_index] == "hart":
+                        self.selected_player = "hart"
+
+                    elif self.player_menu_items[self.player_selected_index] == "kat":
+                        self.selected_player = "kat"
+
+                    elif self.player_menu_items[self.player_selected_index] == "og":
+                        self.selected_player = "og"
+
+                    elif self.player_menu_items[self.player_selected_index] == "lebron":
+                        self.selected_player = "lebron"
+
+                    elif self.player_menu_items[self.player_selected_index] == "kobe":
+                        self.selected_player = "kobe"
+
+                    elif self.player_menu_items[self.player_selected_index] == "reeves":
+                        self.selected_player = "reeves"
+
+                    elif self.player_menu_items[self.player_selected_index] == "luka":
+                        self.selected_player = "luka"
+
+                    elif self.player_menu_items[self.player_selected_index] == "hachi":
+                        self.selected_player = "hachi"
 
                     self.confirm_sound.play()
-                    self.player.update_selectedplayer(self.selectedplayer)
-                    self.inbounder.update_selectedplayer(self.selectedplayer)
-                    self.tipoff.update_selectedplayer(self.selectedplayer)
                     self.howto_menu()
                     self.confirm_sound.play()
-  
+
         self.render_playerselect_menu()
-        pygame.display.flip()                
+        pygame.display.flip()
 
 
 def render_teamselect_menu(self):
@@ -214,6 +228,7 @@ def teamselect_menu(self):
 
         self.render_teamselect_menu()
         pygame.display.flip()
+
 
 def howto_menu(self):
     if not self.start_channel.get_busy():
@@ -312,7 +327,10 @@ def start_screen(self):
                 if event.key in (pygame.K_RETURN, pygame.K_SPACE):
 
                     self.winner = self.tipoff.run(
-                        self.team, self.background, self.continue_menu
+                        self.team,
+                        self.background,
+                        self.continue_menu,
+                        self.selected_player,
                     )
 
         self.render_start_screen()

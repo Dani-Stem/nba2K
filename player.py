@@ -15,6 +15,7 @@ class Player(pygame.sprite.Sprite):
         self.direction = pygame.math.Vector2(1, 0)
         self.position = pygame.math.Vector2(pos)
         self.rect = None
+        self.selected_player = "brunson"
 
         self.import_assets()
         self.animation = self.animations["idle"]
@@ -33,11 +34,12 @@ class Player(pygame.sprite.Sprite):
         self.speed_decay = 100
 
         self.stop = 0
-        self.ball = False
+        self.ball = None
         self.pass_steal = False
         self.stealing = False
         self.landing = None
-        self.is_animation_playing = False
+        self.flopping = False
+        self.falling = False
         self.before_jump = None
         self.is_idle = False
         self.basketball = None
@@ -65,37 +67,45 @@ class Player(pygame.sprite.Sprite):
         animation_data = {
             "run_right": ("run/", 8),
             "run_left": ("run_left/", 8),
-            "jump": ("jump/", 6),
-            "jump_left": ("jump_left/", 6),
-            "land_right": ("land/", 9),
-            "land_left": ("land_left/", 9),
+            "jump": ("jump/", 9),
+            "jump_left": ("jump_left/", 9),
+            "land_right": ("land/", 7),
+            "land_left": ("land_left/", 7),
             "idle": ("idle/", 10),
             "idle_left": ("idle_left/", 10),
             "dribble_right": ("dribble/", 8),
             "dribble_left": ("dribble_left/", 8),
-            "shoot": ("shoot/", 2),
-            "shoot_left": ("shoot_left/", 2),
+            "shoot": ("shoot/", 6),
+            "shoot_left": ("shoot_left/", 6),
             "pass": ("pass/", 7),
             "pass_left": ("pass_left/", 7),
             "steal": ("steal/", 8),
             "steal_left": ("steal_left/", 8),
+            "flop": ("flop/", 8),
+            "flop_left": ("flop_left/", 8),
+            "fall": ("fall/", 12),
+            "fall_left": ("fall_left/", 12),
         }
 
         # Determine which player's animations to load
         if self.winner:
             if self.team == "knicks":
                 team = "knicks"
-                player = "brunson"
+                player = self.selected_player
             else:
                 team = "lakers"
-                player = "lebron"
+                player = self.selected_player
         else:
             if self.team == "lakers":
                 team = "lakers"
-                player = "lebron"
+                player = self.selected_player
             else:
                 team = "knicks"
-                player = "brunson"
+                player = self.selected_player
+
+        if not self.selected_player:
+            team = "knicks"
+            player = "brunson"
 
         # Generate the base path dynamically
         base_path = f"images/{team}/{player}/{player}_"
@@ -104,11 +114,6 @@ class Player(pygame.sprite.Sprite):
         self.animations = {
             key: self.load_animation(base_path + path, frames)
             for key, (path, frames) in animation_data.items()
-        }
-
-        # Store animation lengths
-        self.animation_lengths = {
-            key: len(anim) for key, anim in self.animations.items()
         }
 
     def outofbounds(self, screen, time):
@@ -159,11 +164,7 @@ class Player(pygame.sprite.Sprite):
 
         self.rect.center = round(self.position.x), round(self.position.y - self.height)
 
-        # Adjust the scale factor based on the vertical position (y-coordinate)
-        # The higher the y position, the smaller the sprite becomes, the lower the y position, the bigger the sprite.
-        self.scale_factor = max(
-            1.0, min(1.5, 1 + (self.position.y - 400) / 500)
-        )  # Adjust the divisor and constants to fine-tune size changes
+        self.scale_factor = max(1.0, min(1.5, 1 + (self.position.y - 400) / 500))
 
         self.speed = max(self.min_speed, min(self.speed, self.max_speed))
 
@@ -206,6 +207,14 @@ class Player(pygame.sprite.Sprite):
                     self.frame_index = 0
                 elif event.key == pygame.K_d and not self.pass_steal and not self.ball:
                     self.pass_steal = True
+                    self.frame_index = 0
+
+                if event.key == pygame.K_a and not self.flopping and not self.ball:
+                    self.flopping = True
+                    self.frame_index = 0
+
+                if event.key == pygame.K_s and not self.falling and not self.ball:
+                    self.falling = True
                     self.frame_index = 0
 
         keys = pygame.key.get_pressed()
@@ -295,6 +304,12 @@ class Player(pygame.sprite.Sprite):
                     if self.pass_steal:
                         self.animation = self.animations["steal"]
 
+                    if self.flopping:
+                        self.animation = self.animations["flop"]
+
+                    if self.falling:
+                        self.animation = self.animations["fall"]
+
                 elif self.status == "left":
                     self.animation = self.animations["run_left"]
                     self.direction.x = -1
@@ -309,6 +324,12 @@ class Player(pygame.sprite.Sprite):
 
                     if self.pass_steal:
                         self.animation = self.animations["steal_left"]
+
+                    if self.flopping:
+                        self.animation = self.animations["flop_left"]
+
+                    if self.falling:
+                        self.animation = self.animations["fall_left"]
 
         if self.landing:
             self.frame_index += 15 * dt
@@ -326,6 +347,10 @@ class Player(pygame.sprite.Sprite):
             self.animations["land_left"],
             self.animations["steal"],
             self.animations["steal_left"],
+            self.animations["flop"],
+            self.animations["flop_left"],
+            self.animations["fall"],
+            self.animations["fall_left"],
         ]:
 
             if self.frame_index > len(self.animation) - 2:
@@ -334,14 +359,14 @@ class Player(pygame.sprite.Sprite):
                 if self.stop == 0:
                     self.stop += 1
 
-                self.is_animation_playing = False
                 if self.ball:
                     self.speed = 0
                 self.pass_steal = False
                 self.landing = False
+                self.flopping = False
+                self.falling = False
 
             else:
-                self.is_animation_playing = True
                 self.pass_steal = True
                 if self.ball or self.landing or self.pass_steal:
                     self.speed = 0
@@ -400,6 +425,7 @@ class Player(pygame.sprite.Sprite):
                                 time,
                                 pygame.math.Vector2(1, 0),
                             )
+
                         elif self.status == "left":
                             self.basketball = Basketball(
                                 (self.rect.topleft[0] + 50, self.rect.topleft[1] + 10),
@@ -407,6 +433,7 @@ class Player(pygame.sprite.Sprite):
                                 time,
                                 pygame.math.Vector2(-1, 0),
                             )
+
                         self.stop += 1
             else:
                 if self.frame_index == len(self.animation) - 1:
@@ -418,6 +445,8 @@ class Player(pygame.sprite.Sprite):
                             time,
                             pygame.math.Vector2(1, 0),
                         )
+                        self.ball = False
+
                     elif self.status == "left":
                         self.basketball = Basketball(
                             (self.rect.midleft[0] + 50, self.rect.midleft[1] + 10),
@@ -425,12 +454,13 @@ class Player(pygame.sprite.Sprite):
                             time,
                             pygame.math.Vector2(-1, 0),
                         )
-                    self.ball = False
+                        self.ball = False
 
         if self.basketball:
             self.basketball.update(dt)
 
-    def update(self, dt, events, screen, time, team, winner, ball):
+    def update(self, dt, events, screen, time, team, winner, ball, selected_player):
+        self.selected_player = selected_player
         self.ball = ball
         self.winner = winner
         self.team = team

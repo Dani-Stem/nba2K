@@ -22,12 +22,10 @@ class TestBall(pygame.sprite.Sprite):
     def update(self, ball):
         self.ball = ball
 
-        # Collision detection
         colliding_sprites = pygame.sprite.spritecollide(
             self, self.group[1], False, pygame.sprite.collide_mask
         )
 
-        # Exclude self and the player group
         colliding_sprites = [
             sprite
             for sprite in colliding_sprites

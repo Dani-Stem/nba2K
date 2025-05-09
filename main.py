@@ -2,7 +2,7 @@ import pygame
 import time
 from player import Player
 from inbounder import Inbounder
-
+from player_select import PlayerSelect
 from game_loop import game_loop
 from all_sprites import AllSprites
 from test_ball import TestBall
@@ -36,6 +36,7 @@ class Game:
         self.player_group = AllSprites()
         self.inbounder_group = pygame.sprite.Group()
         self.testball_group = pygame.sprite.Group()
+        self.player_select_group = pygame.sprite.Group()
 
         # variables
         self.outOfBounds = False
@@ -43,13 +44,14 @@ class Game:
         self.snap = False
         self.menu = False
         self.team = None
-        self.selectedplayer = None
+        self.selected_player = None
         self.winner = None
         self.ball = False
 
         # Menu variables
         self.selected_index3 = None
         self.team_selected_index = 0
+        self.player_selected_index = 0
         self.continue_selected_index = 0
         self.teamselect_menu_items = ["KNICKS", "LAKERS"]
         self.teamselect_instructions = [
@@ -60,9 +62,13 @@ class Game:
         ]
         self.continue_item = ["Continue", "Quit"]
 
+        self.player_menu_items = ""
+        self.playerselectknicks_menu_items = ["brunson", "melo", "hart", "og", "kat"]
+        self.playerselectlakers_menu_items = ["lebron", "kobe", "reeves", "luka", "hachi"]
+
         # Colors
         self.WHITE = (255, 255, 255)
-        self.BLACK = (0, 0, 0)
+        self.BLACK = (40, 40, 40)
         self.HIGHLIGHT = "green"
         self.start = True
 
@@ -84,6 +90,8 @@ class Game:
 
         # Classes
         self.tipoff = TipOff()
+
+        self.select = PlayerSelect((self.WINDOW_WIDTH // 2, self.WINDOW_HEIGHT // 2), self.player_select_group,)
 
         self.player = Player((250, 450), self.player_group)
         self.inbounder = Inbounder(
@@ -165,7 +173,114 @@ class Game:
         self.background = None
         self.transparent_background = Background().generate_background()
 
+    def ps_brunson(self):
+        self.selected_player = "brunson"
+        ts_brunson = pygame.image.load(
+            "images/knicks/brunson/brunson_idle/0.png"
+        ).convert_alpha()
+        self.screen.blit(
+            ts_brunson,
+            pygame.Rect(90, 385, 10, 10),
+        )
+
+    def ps_melo(self):
+        self.selected_player = "melo"
+        ts_melo = pygame.image.load(
+            "images/knicks/melo/melo_idle/0.png"
+        ).convert_alpha()
+        self.screen.blit(
+            ts_melo,
+            pygame.Rect(290, 305, 10, 10),
+        )
+
+    def ps_hart(self):
+        self.selected_player = "hart"
+        ts_hart = pygame.image.load(
+            "images/knicks/hart/hart_idle/0.png"
+        ).convert_alpha()
+        self.screen.blit(
+            ts_hart,
+            pygame.Rect(490, 305, 10, 10),
+        )
+
+    def ps_og(self):
+        self.selected_player = "og"
+        ts_og = pygame.image.load(
+            "images/knicks/og/og_idle/0.png"
+        ).convert_alpha()
+        self.screen.blit(
+            ts_og,
+            pygame.Rect(690, 305, 10, 10),
+        )
+
+    def ps_kat(self):
+        self.selected_player = "kat"
+        ts_kat = pygame.image.load(
+            "images/knicks/kat/kat_idle/0.png"
+        ).convert_alpha()
+        self.screen.blit(
+            ts_kat,
+            pygame.Rect(890, 305, 10, 10),
+        )
+
+    def ps_lebron(self):
+        self.selected_player = "lebron"
+        ts_lebron = pygame.image.load(
+            "images/lakers/lebron/lebron_idle/0.png"
+        ).convert_alpha()
+        self.screen.blit(
+            ts_lebron,
+            pygame.Rect(90, 305, 10, 10),
+        )
+
+    def ps_kobe(self):
+        self.selected_player = "kobe"
+        ts_kobe = pygame.image.load(
+            "images/lakers/kobe/kobe_idle/0.png"
+        ).convert_alpha()
+        self.screen.blit(
+            ts_kobe,
+            pygame.Rect(290, 305, 10, 10),
+        )
+
+    def ps_reeves(self):
+        self.selected_player = "reeves"
+        ts_reeves = pygame.image.load(
+            "images/lakers/reeves/reeves_idle/0.png"
+        ).convert_alpha()
+        self.screen.blit(
+            ts_reeves,
+            pygame.Rect(490, 305, 10, 10),
+        )
+
+    def ps_luka(self):
+        self.selected_player = "luka"
+        ts_luka = pygame.image.load(
+            "images/lakers/luka/luka_idle/0.png"
+        ).convert_alpha()
+        self.screen.blit(
+            ts_luka,
+            pygame.Rect(690, 305, 10, 10),
+        )
+
+    def ps_hachi(self):
+        self.selected_player = "hachi"
+        ts_hachi = pygame.image.load(
+            "images/lakers/hachi/hachi_idle/0.png"
+        ).convert_alpha()
+        self.screen.blit(
+            ts_hachi,
+            pygame.Rect(890, 305, 10, 10),
+        )
+
+
     # Functions
+
+    def player_select(self):
+        current_player = self.player_menu_items[self.player_selected_index]
+        self.player_select_group.draw(self.screen)
+        self.select.update(self.team, current_player)
+
     def show_qtr(self, qtr, screen):
         self.qtr = qtr % 4
         my_font = pygame.font.Font("images/font.ttf", 50)
