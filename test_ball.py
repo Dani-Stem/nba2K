@@ -36,3 +36,8 @@ class TestBall(pygame.sprite.Sprite):
             self.ball = True
 
         return self.ball
+        
+# To the Unforgettable Ms. Curls,
+# There are not enough words in this world to capture what I feel every time I see you. Still, I’ll try, because you deserve to hear it.
+
+
