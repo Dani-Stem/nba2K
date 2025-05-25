@@ -1,6 +1,13 @@
 import pygame, sys
 import time
 
+# Ms. Curls, your hair’s a springtime song,
+# Beautiful and bright, where dreams belong.
+# With every cheer, you light up the air—
+# A basketball star with curls so rare.
+# If cheers are magic, you’re the spell—
+# With you beside me, all is well.
+
 
 def game_loop(self):
     self.tipoff_music.stop()
